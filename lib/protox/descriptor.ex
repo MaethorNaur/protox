@@ -626,7 +626,7 @@ defmodule Protox.Descriptor do
             label: :repeated,
             name: :options,
             kind: :unpacked,
-            type: {:message, GRPC.Protobuf.MethodOptions}
+            type: {:message, Protox.Google.Protobuf.MethodOptions}
           ),
           Protox.Field.new!(
             tag: 5,
