@@ -64,7 +64,7 @@ defmodule Protox.Descriptor do
         name: Protox.Google.Protobuf.FileDescriptorProto,
         syntax: :proto3,
         fields: [
-          # Ignored: 3, 6, 8, 9, 10, 11
+          # Ignored: 8, 9, 10, 11
           Protox.Field.new!(
             tag: 1,
             label: :none,
@@ -80,6 +80,13 @@ defmodule Protox.Descriptor do
             type: :string
           ),
           Protox.Field.new!(
+            tag: 3,
+            label: :repeated,
+            name: :dependency,
+            kind: :unpacked,
+            type: :string
+          ),
+          Protox.Field.new!(
             tag: 4,
             label: :repeated,
             name: :message_type,
@@ -92,6 +99,13 @@ defmodule Protox.Descriptor do
             name: :enum_type,
             kind: :unpacked,
             type: {:message, Protox.Google.Protobuf.EnumDescriptorProto}
+          ),
+          Protox.Field.new!(
+            tag: 6,
+            label: :repeated,
+            name: :service,
+            kind: :unpacked,
+            type: {:message, Protox.Google.Protobuf.ServiceDescriptorProto}
           ),
           Protox.Field.new!(
             tag: 7,
@@ -555,8 +569,81 @@ defmodule Protox.Descriptor do
           )
         ]
       },
-      # ServiceDescriptorProto ignored
-      # MethodDescriptorProto ignored
+      %Protox.Message{
+        name: Protox.Google.Protobuf.ServiceDescriptorProto,
+        syntax: :proto3,
+        fields: [
+          Protox.Field.new!(
+            tag: 1,
+            label: :none,
+            name: :name,
+            kind: {:scalar, nil},
+            type: :string
+          ),
+          Protox.Field.new!(
+            tag: 2,
+            label: :repeated,
+            name: :method,
+            kind: :unpacked,
+            type: {:message, Protox.Google.Protobuf.MethodDescriptorProto}
+          ),
+          Protox.Field.new!(
+            tag: 3,
+            label: :none,
+            name: :option,
+            kind: :unpacked,
+            type: {:message, Protox.Google.Protobuf.ServiceOptions}
+          )
+        ]
+      },
+      %Protox.Message{
+        name: Protox.Google.Protobuf.MethodDescriptorProto,
+        syntax: :proto3,
+        fields: [
+          Protox.Field.new!(
+            tag: 1,
+            label: :none,
+            name: :name,
+            kind: {:scalar, nil},
+            type: :string
+          ),
+          Protox.Field.new!(
+            tag: 2,
+            label: :none,
+            name: :input_type,
+            kind: {:scalar, nil},
+            type: :string
+          ),
+          Protox.Field.new!(
+            tag: 3,
+            label: :none,
+            name: :output_type,
+            kind: {:scalar, nil},
+            type: :string
+          ),
+          Protox.Field.new!(
+            tag: 4,
+            label: :repeated,
+            name: :options,
+            kind: :unpacked,
+            type: {:message, GRPC.Protobuf.MethodOptions}
+          ),
+          Protox.Field.new!(
+            tag: 5,
+            label: :none,
+            name: :client_streaming,
+            kind: {:scalar, false},
+            type: :bool
+          ),
+          Protox.Field.new!(
+            tag: 6,
+            label: :none,
+            name: :server_streaming,
+            kind: {:scalar, false},
+            type: :bool
+          )
+        ]
+      },
       %Protox.Message{
         name: Protox.Google.Protobuf.MessageOptions,
         syntax: :proto3,
@@ -598,12 +685,36 @@ defmodule Protox.Descriptor do
             type: :bool
           )
         ]
+      },
+      %Protox.Message{
+        name: Protox.Google.Protobuf.ServiceOptions,
+        syntax: :proto3,
+        fields: [
+          Protox.Field.new!(
+            tag: 33,
+            label: :none,
+            name: :deprecated,
+            kind: {:scalar, false},
+            type: :bool
+          )
+        ]
+      },
+      %Protox.Message{
+        name: Protox.Google.Protobuf.MethodOptions,
+        syntax: :proto3,
+        fields: [
+          Protox.Field.new!(
+            tag: 33,
+            label: :none,
+            name: :deprecated,
+            kind: {:scalar, false},
+            type: :bool
+          )
+        ]
       }
       # OneofOptions ignored
       # EnumOptions ignored
       # EnumValueOptions ignored
-      # ServiceOptions ignored
-      # MethodOptions ignored
       # SourceCodeInfo ignored
       # GeneratedCodeInfo ignored
     ]
