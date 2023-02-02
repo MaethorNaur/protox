@@ -4,7 +4,7 @@ defmodule Protox.Mixfile do
   def project do
     [
       app: :protox,
-      version: "1.7.1",
+      version: "1.7.2",
       elixir: "~> 1.9",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -17,7 +17,8 @@ defmodule Protox.Mixfile do
       description: description(),
       package: package(),
       dialyzer: [plt_local_path: "priv/plts"],
-      docs: docs()
+      docs: docs(),
+      preferred_cli_env: [muzak: :test]
     ]
   end
 
@@ -44,12 +45,26 @@ defmodule Protox.Mixfile do
       {:dialyxir, "~> 1.0", only: [:test, :dev], runtime: false},
       {:excoveralls, "~> 0.13", only: [:test], runtime: false},
       {:ex_doc, "~> 0.22", only: [:dev], runtime: false},
-      {:git_hooks, "~> 0.5", only: [:test, :dev], runtime: false},
       {:jason, "~> 1.2", optional: true},
       {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false},
       {:poison, "~> 4.0 or ~> 5.0", only: [:test, :dev], optional: true},
       {:propcheck, "~> 1.2", only: [:test, :dev]}
     ]
+    |> maybe_add_muzak_pro()
+  end
+
+  defp maybe_add_muzak_pro(deps) do
+    case System.get_env("PROTOX_MUZAK_PRO_CREDS") do
+      nil ->
+        deps
+
+      creds ->
+        muzak_pro =
+          {:muzak,
+           git: "https://#{creds}@git.devonestes.com/muzak/muzak.git", tag: "1.1.0", only: [:test]}
+
+        [muzak_pro | deps]
+    end
   end
 
   defp description do

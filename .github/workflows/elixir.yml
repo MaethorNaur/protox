@@ -16,7 +16,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       fail-fast: false
@@ -24,21 +24,18 @@ jobs:
         include:
           - elixir: 1.9.4
             otp: 22.3
-            check_deps: false
-            check_format: false
           - elixir: 1.10.4
-            otp: 22.3              
-            check_format: false
+            otp: 22.3
           - elixir: 1.11.4
             otp: 23.3
-            check_format: false
           - elixir: 1.12.3
             otp: 24.1
           - elixir: 1.13.0
             otp: 24.1
-          - elixir: 1.14.0
+          - elixir: 1.14.1
             otp: 25.1
-
+            check_format: true
+            check_deps: true
 
     steps:
     - uses: actions/checkout@v2
@@ -50,19 +47,19 @@ jobs:
         otp-version: ${{matrix.otp}}
 
     - name: Restore dependencies cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: deps
         key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles('**/mix.lock') }}
 
     - name: Restore PLT cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: priv/plts
         key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles('**/mix.lock') }}
 
     - name: Restore conformance-test-runner
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       id: compile-conformance-test-runner
       with:
         path: conformance-bin

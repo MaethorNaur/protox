@@ -49,6 +49,7 @@ You can find [here](https://github.com/ahamez/protox/blob/master/test/example_te
 - [Conformance](#conformance)
 - [Types mapping](#types-mapping)
 - [Benchmarks](#benchmarks)
+- [Development](#development)
 - [Credits](#credits)
 
 ## Prerequisites
@@ -56,7 +57,9 @@ You can find [here](https://github.com/ahamez/protox/blob/master/test/example_te
 - Elixir >= 1.9
 - protoc >= 3.0 *This dependency is only required at compile-time*
   `protox` uses Google's `protoc` (>= 3.0) to parse `.proto` files. It must be available in `$PATH`.
+
   👉 You can download it [here](https://github.com/google/protobuf) or you can install it with your favorite package manager (`brew install protobuf`, `apt install protobuf-compiler`, etc.).
+
   ℹ️ If you choose to generate files, `protoc` won't be needed to compile these files.
 
 
@@ -580,6 +583,13 @@ You can launch benchmarks to see how `protox` perform:
 mix run ./benchmarks/generate_payloads.exs # first time only, generates random payloads
 mix run ./benchmarks/run.exs --lib=./benchmarks/protox.exs
 mix run ./benchmarks/load.exs
+```
+
+## Development
+
+`protox` uses [`pre-commit`](https://pre-commit.com/#install) to launch git hooks. Thus, it's strongly recommended to install it, and then to install hooks as follows:
+```sh
+pre-commit install && pre-commit install -t pre-push
 ```
 
 ## Credits
